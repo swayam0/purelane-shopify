@@ -1,0 +1,104 @@
+{%- comment -%}
+  Renders a single pricing-tier bundle card from a Bundle_tier metaobject entry.
+  Accepts:
+    - bundle: metaobject entry of type "bundle_tier" (required)
+{%- endcomment -%}
+
+{%- liquid
+  assign bundle_products = bundle.products.value
+  assign has_compare = false
+  if bundle.compare_at_price.value != blank and bundle.compare_at_price.value > bundle.price.value
+    assign has_compare = true
+  endif
+
+  assign variant_ids = ''
+  for bundle_item in bundle_products
+    assign v_id = bundle_item.selected_or_first_available_variant.id
+    if variant_ids == ''
+      assign variant_ids = v_id
+    else
+      assign variant_ids = variant_ids | append: ',' | append: v_id
+    endif
+  endfor
+-%}
+
+<article class="purelane-bundle{% if bundle.badge.value != blank %} purelane-bundle--featured{% endif %}">
+  {%- if bundle.badge.value != blank -%}
+    <span class="purelane-bundle__badge">{{ bundle.badge.value }}</span>
+  {%- endif -%}
+
+  <h3 class="purelane-bundle__title">{{ bundle.title.value }}</h3>
+
+  <div class="purelane-bundle__price">
+    <strong>{{ bundle.price.value | times: 100 | money }}</strong>
+    {%- if has_compare -%}
+      <s>{{ bundle.compare_at_price.value | times: 100 | money }}</s>
+    {%- endif -%}
+  </div>
+
+  {%- if bundle.features.value != blank -%}
+    <ul class="purelane-bundle__features">
+      {%- for feature in bundle.features.value -%}
+        <li>{{ feature }}</li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+
+  <purelane-bundle-add
+    class="purelane-bundle__add-wrap"
+    data-variant-ids="{{ variant_ids }}"
+  >
+    <button type="button" class="button button--primary purelane-bundle__add">
+      Add bundle to cart
+    </button>
+    <span class="purelane-bundle__add-status" role="status" aria-live="polite"></span>
+  </purelane-bundle-add>
+</article>
+
+<script>
+  if (!customElements.get('purelane-bundle-add')) {
+    class PurelaneBundleAdd extends HTMLElement {
+      connectedCallback() {
+        this.button = this.querySelector('.purelane-bundle__add');
+        this.status = this.querySelector('.purelane-bundle__add-status');
+        this.button.addEventListener('click', this.addBundle.bind(this));
+      }
+
+      addBundle() {
+        const ids = (this.dataset.variantIds || '')
+          .split(',')
+          .filter(Boolean)
+          .map((id) => ({ id: Number(id), quantity: 1 }));
+
+        if (ids.length === 0) {
+          this.status.textContent = 'This bundle has no products configured.';
+          return;
+        }
+
+        this.button.disabled = true;
+        this.status.textContent = 'Adding…';
+
+        fetch(window.Shopify.routes.root + 'cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ items: ids }),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('Add to cart failed');
+            }
+            return response.json();
+          })
+          .then(() => {
+            this.status.textContent = 'Added to cart.';
+            window.location.href = window.Shopify.routes.root + 'cart';
+          })
+          .catch(() => {
+            this.status.textContent = 'Something went wrong. Please try again.';
+            this.button.disabled = false;
+          });
+      }
+    }
+    customElements.define('purelane-bundle-add', PurelaneBundleAdd);
+  }
+</script>

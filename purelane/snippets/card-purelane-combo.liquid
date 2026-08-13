@@ -1,0 +1,62 @@
+{%- comment -%}
+  Renders a single combo card from a Combo metaobject entry.
+  Accepts:
+    - combo: metaobject entry of type "combo" (required)
+{%- endcomment -%}
+
+{%- liquid
+  assign combo_products = combo.products.value
+  assign has_compare = false
+  if combo.compare_at_price.value != blank and combo.compare_at_price.value > combo.bundle_price.value
+    assign has_compare = true
+  endif
+-%}
+
+<article class="purelane-combo">
+  <div class="purelane-combo__stack">
+    {%- if combo.flag.value != blank -%}
+      <span class="purelane-combo__flag">{{ combo.flag.value }}</span>
+    {%- endif -%}
+
+    {%- if has_compare -%}
+      {%- assign combo_savings = combo.compare_at_price.value | minus: combo.bundle_price.value -%}
+      <span class="purelane-combo__save">
+        You save {{ combo_savings | times: 100 | money }}
+      </span>
+    {%- endif -%}
+
+    <div class="purelane-combo__thumbs">
+      {%- for combo_item in combo_products limit: 3 -%}
+        <span class="purelane-combo__thumb">
+          {%- if combo_item.featured_image != blank -%}
+            {{ combo_item.featured_image | image_url: width: 200 | image_tag: loading: 'lazy', sizes: '80px' }}
+          {%- else -%}
+            {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          {%- endif -%}
+        </span>
+        {%- unless forloop.last -%}
+          <span class="purelane-combo__plus" aria-hidden="true">+</span>
+        {%- endunless -%}
+      {%- endfor -%}
+    </div>
+  </div>
+
+  <div class="purelane-combo__body">
+    <h3 class="purelane-combo__title">{{ combo.title.value }}</h3>
+    <div class="purelane-combo__count">{{ combo_products.size }} products</div>
+    {%- if combo.description.value != blank -%}
+      <p class="purelane-combo__desc">{{ combo.description.value }}</p>
+    {%- endif -%}
+
+    <div class="purelane-combo__price">
+      <strong>{{ combo.bundle_price.value | times: 100 | money }}</strong>
+      {%- if has_compare -%}
+        <s>{{ combo.compare_at_price.value | times: 100 | money }}</s>
+      {%- endif -%}
+    </div>
+
+    <a href="#bundles" class="button button--secondary purelane-combo__cta">
+      Shop bundle
+    </a>
+  </div>
+</article>

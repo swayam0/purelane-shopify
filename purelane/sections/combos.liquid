@@ -1,0 +1,88 @@
+{{ 'component-purelane-combos.css' | asset_url | stylesheet_tag }}
+
+<section
+  id="Combos-{{ section.id }}"
+  class="purelane-combos color-{{ section.settings.color_scheme }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+>
+  <div class="page-width">
+    <div class="purelane-combos__head">
+      {%- if section.settings.kicker != blank -%}
+        <span class="purelane-combos__kicker">{{ section.settings.kicker }}</span>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="purelane-combos__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="purelane-combos__subheading">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- liquid
+      assign combo_entries = section.settings.combos
+    -%}
+
+    {%- if combo_entries != blank and combo_entries.size > 0 -%}
+      <div class="purelane-combos__rail">
+        {%- for combo_entry in combo_entries -%}
+          {%- render 'card-purelane-combo', combo: combo_entry -%}
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div class="purelane-combos__empty">
+        Add Combo entries in the theme editor to show bundles here.
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Combos",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker text",
+      "default": "Pre-built to save you money"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Best selling combos"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Swipe through the boxes people order most."
+    },
+    {
+      "type": "metaobject_list",
+      "id": "combos",
+      "label": "Combos",
+      "metaobject_type": "combo"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Combos"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,169 @@
+.purelane-combos {
+  padding: 4rem 0;
+}
+
+.purelane-combos__head {
+  text-align: center;
+  margin-bottom: 2.8rem;
+}
+
+.purelane-combos__kicker {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin-bottom: 0.8rem;
+}
+
+.purelane-combos__heading {
+  font-size: 3rem;
+}
+
+.purelane-combos__subheading {
+  max-width: 46ch;
+  margin: 1rem auto 0;
+  opacity: 0.75;
+}
+
+.purelane-combos__empty {
+  text-align: center;
+  padding: 3rem 0;
+  opacity: 0.6;
+}
+
+.purelane-combos__rail {
+  display: flex;
+  gap: 1.6rem;
+  overflow-x: auto;
+  padding-bottom: 1rem;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.purelane-combos__rail::-webkit-scrollbar {
+  height: 0.6rem;
+}
+
+.purelane-combos__rail::-webkit-scrollbar-thumb {
+  background: rgba(var(--color-foreground), 0.2);
+  border-radius: 999px;
+}
+
+/* ---- Combo card ---- */
+.purelane-combo {
+  flex: 0 0 28rem;
+  scroll-snap-align: start;
+  border-radius: 1.8rem;
+  overflow: hidden;
+  background: rgb(var(--color-background));
+  border: 1px solid rgba(var(--color-foreground), 0.08);
+  display: flex;
+  flex-direction: column;
+}
+
+.purelane-combo__stack {
+  position: relative;
+  padding: 1.8rem;
+  background: rgba(var(--color-foreground), 0.04);
+}
+
+.purelane-combo__flag {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: rgb(var(--color-foreground));
+  color: rgb(var(--color-background));
+}
+
+.purelane-combo__save {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 700;
+  background: rgba(var(--color-foreground), 0.08);
+}
+
+.purelane-combo__thumbs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding-top: 1.4rem;
+}
+
+.purelane-combo__thumb {
+  width: 6.4rem;
+  height: 6.4rem;
+  border-radius: 1.2rem;
+  overflow: hidden;
+  background: rgb(var(--color-background));
+  display: block;
+}
+
+.purelane-combo__thumb img,
+.purelane-combo__thumb svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.purelane-combo__plus {
+  font-size: 1.8rem;
+  font-weight: 700;
+  opacity: 0.4;
+}
+
+.purelane-combo__body {
+  padding: 1.6rem 1.8rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  flex: 1;
+}
+
+.purelane-combo__title {
+  font-size: 1.9rem;
+}
+
+.purelane-combo__count {
+  font-size: 1.1rem;
+  opacity: 0.6;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.purelane-combo__desc {
+  opacity: 0.75;
+  font-size: 1.4rem;
+}
+
+.purelane-combo__price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.8rem;
+  font-size: 1.9rem;
+  font-weight: 700;
+  margin-top: 0.6rem;
+}
+
+.purelane-combo__price s {
+  font-size: 1.4rem;
+  font-weight: 400;
+  opacity: 0.5;
+}
+
+.purelane-combo__cta {
+  margin-top: 1rem;
+  text-align: center;
+}

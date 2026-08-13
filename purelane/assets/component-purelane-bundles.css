@@ -1,0 +1,137 @@
+.purelane-bundles {
+  padding: 4rem 0;
+}
+
+.purelane-bundles__head {
+  text-align: center;
+  margin-bottom: 2.8rem;
+}
+
+.purelane-bundles__kicker {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin-bottom: 0.8rem;
+}
+
+.purelane-bundles__heading {
+  font-size: 3rem;
+}
+
+.purelane-bundles__empty {
+  text-align: center;
+  padding: 3rem 0;
+  opacity: 0.6;
+}
+
+.purelane-bundles__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+@media screen and (min-width: 750px) {
+  .purelane-bundles__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ---- Bundle tier card ---- */
+.purelane-bundle {
+  position: relative;
+  padding: 2.4rem 2rem;
+  border-radius: 2rem;
+  border: 1px solid rgba(var(--color-foreground), 0.1);
+  background: rgb(var(--color-background));
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.purelane-bundle--featured {
+  border-color: rgb(var(--color-foreground));
+  box-shadow: 0 1.6rem 3.6rem rgba(0, 0, 0, 0.12);
+  transform: translateY(-0.6rem);
+}
+
+.purelane-bundle__badge {
+  position: absolute;
+  top: -1.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.5rem 1.4rem;
+  border-radius: 999px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: rgb(var(--color-foreground));
+  color: rgb(var(--color-background));
+  white-space: nowrap;
+}
+
+.purelane-bundle__title {
+  font-size: 2rem;
+  text-align: center;
+}
+
+.purelane-bundle__price {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.8rem;
+  font-size: 2.4rem;
+  font-weight: 700;
+}
+
+.purelane-bundle__price s {
+  font-size: 1.5rem;
+  font-weight: 400;
+  opacity: 0.5;
+}
+
+.purelane-bundle__features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.purelane-bundle__features li {
+  padding-left: 1.6rem;
+  position: relative;
+  font-size: 1.4rem;
+  opacity: 0.85;
+}
+
+.purelane-bundle__features li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  font-weight: 700;
+}
+
+.purelane-bundle__add-wrap {
+  display: block;
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+.purelane-bundle__add {
+  width: 100%;
+  justify-content: center;
+}
+
+.purelane-bundle__add-status {
+  display: block;
+  margin-top: 0.6rem;
+  text-align: center;
+  font-size: 1.2rem;
+  opacity: 0.7;
+}
