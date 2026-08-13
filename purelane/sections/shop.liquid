@@ -1,0 +1,93 @@
+{{ 'component-purelane-shop.css' | asset_url | stylesheet_tag }}
+
+<section
+  id="Shop-{{ section.id }}"
+  class="purelane-shop color-{{ section.settings.color_scheme }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+>
+  <div class="page-width">
+    <div class="purelane-shop__head">
+      {%- if section.settings.kicker != blank -%}
+        <span class="purelane-shop__kicker">{{ section.settings.kicker }}</span>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h2 class="purelane-shop__heading">{{ section.settings.heading }}</h2>
+      {%- endif -%}
+    </div>
+
+    {%- liquid
+      assign shop_collection = section.settings.collection
+    -%}
+
+    {%- if shop_collection != blank and shop_collection.products.size > 0 -%}
+      <div class="purelane-shop__grid">
+        {%- for shop_product in shop_collection.products limit: section.settings.products_to_show -%}
+          {%- render 'card-purelane-product', product: shop_product, card_color_scheme: section.settings.card_color_scheme -%}
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div class="purelane-shop__empty">
+        Select a collection in the theme editor to show products here.
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Shop grid",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker text",
+      "default": "Bestsellers"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop the range"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to show",
+      "min": 4,
+      "max": 24,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Section color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "card_color_scheme",
+      "label": "Card color scheme",
+      "default": "scheme-2"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Shop grid"
+    }
+  ]
+}
+{% endschema %}

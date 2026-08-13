@@ -15,7 +15,7 @@
     {%- comment -%} Desktop badge rail (block-driven) {%- endcomment -%}
     {%- assign badge_blocks = section.blocks | where: 'type', 'badge' -%}
     {%- if badge_blocks.size > 0 -%}
-      <div class="purelane-hero__badges" aria-label="{{ 'sections.purelane_hero.badges_label' | t }}">
+      <div class="purelane-hero__badges" aria-label="Product promises">
         {%- for block in badge_blocks -%}
           <div class="purelane-hero__badge" {{ block.shopify_attributes }}>
             {%- if block.settings.icon != blank -%}

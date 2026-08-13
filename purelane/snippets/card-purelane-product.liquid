@@ -1,0 +1,81 @@
+{%- comment -%}
+  Renders a single product card in the Purelane style.
+  Accepts:
+    - product: product object (required)
+    - show_rating: boolean, whether to attempt showing a star rating (default true)
+{%- endcomment -%}
+
+{%- liquid
+  assign card_product = product
+  assign show_rating = show_rating | default: true
+-%}
+
+<article class="purelane-card color-{{ card_color_scheme | default: 'scheme-1' }}">
+  <a href="{{ card_product.url }}" class="purelane-card__media-link" aria-label="{{ card_product.title | escape }}">
+    <div class="purelane-card__media">
+      {%- if card_product.featured_image != blank -%}
+        {{
+          card_product.featured_image
+          | image_url: width: 600
+          | image_tag:
+            loading: 'lazy',
+            sizes: '(min-width: 990px) 25vw, (min-width: 600px) 50vw, 100vw',
+            widths: '165, 360, 535, 750, 940, 1066, 1200',
+            class: 'purelane-card__image'
+        }}
+      {%- else -%}
+        <div class="purelane-card__media purelane-card__media--placeholder">
+          {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg purelane-card__image' }}
+        </div>
+      {%- endif -%}
+
+      {%- if card_product.available == false -%}
+        <span class="purelane-card__pill purelane-card__pill--sold-out">{{ 'products.product.sold_out' | t }}</span>
+      {%- elsif card_product.compare_at_price > card_product.price -%}
+        <span class="purelane-card__pill purelane-card__pill--sale">{{ 'products.product.on_sale' | t }}</span>
+      {%- endif -%}
+    </div>
+  </a>
+
+  <div class="purelane-card__body">
+    <h3 class="purelane-card__title">
+      <a href="{{ card_product.url }}">{{ card_product.title }}</a>
+    </h3>
+
+    {%- if show_rating and card_product.metafields.reviews.rating.value != blank -%}
+      <div class="purelane-card__rating">
+        <strong>&#9733; {{ card_product.metafields.reviews.rating.value | round: 1 }}</strong>
+        {%- if card_product.metafields.reviews.rating_count.value != blank -%}
+          <span>&middot; {{ card_product.metafields.reviews.rating_count.value }} reviews</span>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="purelane-card__price">
+      <strong>{{ card_product.price | money }}</strong>
+      {%- if card_product.compare_at_price > card_product.price -%}
+        <s>{{ card_product.compare_at_price | money }}</s>
+        {%- assign discount = card_product.compare_at_price | minus: card_product.price | times: 100.0 | divided_by: card_product.compare_at_price | round -%}
+        <em>{{ discount }}% off</em>
+      {%- endif -%}
+    </div>
+
+    {%- form 'product', card_product, class: 'purelane-card__form' -%}
+      <input type="hidden" name="id" value="{{ card_product.selected_or_first_available_variant.id }}">
+      <button
+        type="submit"
+        name="add"
+        class="button button--secondary purelane-card__add"
+        {% if card_product.available == false %}
+          disabled
+        {% endif %}
+      >
+        {%- if card_product.available == false -%}
+          {{ 'products.product.sold_out' | t }}
+        {%- else -%}
+          {{ 'products.product.add_to_cart' | t }}
+        {%- endif -%}
+      </button>
+    {%- endform -%}
+  </div>
+</article>
