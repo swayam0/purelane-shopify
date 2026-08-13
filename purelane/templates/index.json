@@ -1,5 +1,43 @@
 {
   "sections": {
+    "hero": {
+      "type": "hero",
+      "blocks": {
+        "badge_1": {
+          "type": "badge",
+          "settings": {
+            "icon": "🌿",
+            "text": "Plant powered"
+          }
+        },
+        "badge_2": {
+          "type": "badge",
+          "settings": {
+            "icon": "🐶",
+            "text": "Kids & pet safe"
+          }
+        },
+        "badge_3": {
+          "type": "badge",
+          "settings": {
+            "icon": "✨",
+            "text": "Zero harsh chem"
+          }
+        }
+      },
+      "block_order": [
+        "badge_1",
+        "badge_2",
+        "badge_3"
+      ],
+      "settings": {
+        "heading": "Clean That Lasts",
+        "subheading": "Homecare that works on the toughest grime, made from plants.",
+        "button_label_1": "Shop now",
+        "button_link_1": "shopify://collections/all",
+        "button_label_2": "How it works"
+      }
+    },
     "image_banner": {
       "type": "image-banner",
       "blocks": {
@@ -69,6 +107,7 @@
     }
   },
   "order": [
+    "hero",
     "image_banner",
     "featured_collection"
   ]

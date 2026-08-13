@@ -1,0 +1,176 @@
+.purelane-hero {
+  position: relative;
+  padding: 4rem 0 3.4rem;
+  overflow: hidden;
+}
+
+.purelane-hero__grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  gap: 2.4rem;
+}
+
+@media screen and (min-width: 900px) {
+  .purelane-hero {
+    padding: 9rem 0 3.4rem;
+    min-height: 90vh;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .purelane-hero__grid {
+    grid-template-columns: 1.1fr 0.9fr;
+  }
+}
+
+.purelane-hero__copy {
+  max-width: 60ch;
+  position: relative;
+  z-index: 3;
+}
+
+.purelane-hero__heading {
+  margin-bottom: 2rem;
+  text-wrap: balance;
+}
+
+.purelane-hero__subheading {
+  max-width: 44ch;
+  font-size: 1.6rem;
+  line-height: 1.6;
+  opacity: 0.82;
+}
+
+.purelane-hero__cta {
+  display: flex;
+  gap: 1.1rem;
+  flex-wrap: wrap;
+  margin-top: 2.4rem;
+}
+
+/* Desktop badge rail */
+.purelane-hero__badges {
+  position: absolute;
+  right: 1.2rem;
+  top: 30%;
+  transform: translateY(-50%);
+  width: 9.6rem;
+  z-index: 5;
+  display: none;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 1.2rem 0.8rem;
+  border-radius: 2rem;
+  background: rgb(var(--color-background));
+  box-shadow: 0 1.2rem 3rem rgba(0, 0, 0, 0.16);
+}
+
+@media screen and (min-width: 900px) {
+  .purelane-hero__badges {
+    display: flex;
+  }
+}
+
+.purelane-hero__badge {
+  text-align: center;
+  padding: 1.1rem 0.4rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.3;
+}
+
+.purelane-hero__badge + .purelane-hero__badge {
+  border-top: 1px solid rgba(var(--color-foreground), 0.1);
+}
+
+.purelane-hero__badge-icon {
+  display: block;
+  font-size: 1.8rem;
+  margin-bottom: 0.6rem;
+}
+
+/* Mobile badge strip */
+.purelane-hero__badgestrip {
+  display: flex;
+  gap: 0.8rem;
+  margin-top: 2.4rem;
+}
+
+@media screen and (min-width: 900px) {
+  .purelane-hero__badgestrip {
+    display: none;
+  }
+}
+
+.purelane-hero__badgestrip-item {
+  flex: 1;
+  text-align: center;
+  padding: 1.1rem 0.6rem;
+  border-radius: 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(var(--color-foreground), 0.04);
+}
+
+.purelane-hero__product {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.purelane-hero__product-image {
+  width: 100%;
+  max-width: 42rem;
+  height: auto;
+  filter: drop-shadow(0 3.4rem 5.4rem rgba(0, 0, 0, 0.28));
+}
+
+.purelane-hero__pricetag {
+  position: relative;
+  margin-top: -1rem;
+  z-index: 3;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 1.2rem 2rem;
+  border-radius: 1.6rem;
+  background: rgb(var(--color-background));
+  box-shadow: 0 1.2rem 3rem rgba(0, 0, 0, 0.18);
+}
+
+.purelane-hero__pricetag-label {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.purelane-hero__pricetag-value {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  font-family: var(--font-heading-family);
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.purelane-hero__pricetag-value s {
+  font-size: 1.3rem;
+  opacity: 0.5;
+}
+
+.purelane-hero__pricetag-note {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: rgb(var(--color-accent, var(--color-foreground)));
+}

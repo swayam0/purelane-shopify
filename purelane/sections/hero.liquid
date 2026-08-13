@@ -1,0 +1,251 @@
+{{ 'component-purelane-hero.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  #Hero-{{ section.id }} {
+    --hero-color-scheme: {{ section.settings.color_scheme }};
+  }
+{%- endstyle -%}
+
+<section
+  id="Hero-{{ section.id }}"
+  class="purelane-hero color-{{ section.settings.color_scheme }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+>
+  <div class="purelane-hero__grid page-width">
+
+    {%- comment -%} Desktop badge rail (block-driven) {%- endcomment -%}
+    {%- assign badge_blocks = section.blocks | where: 'type', 'badge' -%}
+    {%- if badge_blocks.size > 0 -%}
+      <div class="purelane-hero__badges" aria-label="{{ 'sections.purelane_hero.badges_label' | t }}">
+        {%- for block in badge_blocks -%}
+          <div class="purelane-hero__badge" {{ block.shopify_attributes }}>
+            {%- if block.settings.icon != blank -%}
+              <span class="purelane-hero__badge-icon">{{ block.settings.icon }}</span>
+            {%- endif -%}
+            <span>{{ block.settings.text }}</span>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    <div class="purelane-hero__copy">
+      {%- if section.settings.heading != blank -%}
+        <h1 class="purelane-hero__heading {{ section.settings.heading_size }}">
+          {{ section.settings.heading }}
+        </h1>
+      {%- endif -%}
+
+      {%- if section.settings.subheading != blank -%}
+        <p class="purelane-hero__subheading">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.button_label_1 != blank or section.settings.button_label_2 != blank -%}
+        <div class="purelane-hero__cta">
+          {%- if section.settings.button_label_1 != blank -%}
+            <a
+              {% if section.settings.button_link_1 == blank %}
+                role="link" aria-disabled="true"
+              {% else %}
+                href="{{ section.settings.button_link_1 }}"
+              {% endif %}
+              class="button button--primary"
+            >
+              {{- section.settings.button_label_1 | escape -}}
+            </a>
+          {%- endif -%}
+          {%- if section.settings.button_label_2 != blank -%}
+            <a
+              {% if section.settings.button_link_2 == blank %}
+                role="link" aria-disabled="true"
+              {% else %}
+                href="{{ section.settings.button_link_2 }}"
+              {% endif %}
+              class="button button--secondary"
+            >
+              {{- section.settings.button_label_2 | escape -}}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- comment -%} Mobile badge strip - same badge blocks, shown stacked below CTA on small screens {%- endcomment -%}
+      {%- if badge_blocks.size > 0 -%}
+        <div class="purelane-hero__badgestrip">
+          {%- for block in badge_blocks -%}
+            <div class="purelane-hero__badgestrip-item">
+              {%- if block.settings.icon != blank -%}
+                <span class="purelane-hero__badge-icon">{{ block.settings.icon }}</span>
+              {%- endif -%}
+              {{ block.settings.text }}
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} Product image / featured product visual {%- endcomment -%}
+    <div class="purelane-hero__product">
+      {%- if section.settings.image != blank -%}
+        {{
+          section.settings.image
+          | image_url: width: 1200
+          | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '(min-width: 900px) 50vw, 88vw', class: 'purelane-hero__product-image'
+        }}
+      {%- else -%}
+        {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg purelane-hero__product-image' }}
+      {%- endif -%}
+
+      {%- if section.settings.price_label != blank -%}
+        <div class="purelane-hero__pricetag color-{{ section.settings.color_scheme }}">
+          <span class="purelane-hero__pricetag-label">{{ section.settings.price_label }}</span>
+          <span class="purelane-hero__pricetag-value">
+            {%- if section.settings.price_current != blank -%}
+              <strong>{{ section.settings.price_current }}</strong>
+            {%- endif -%}
+            {%- if section.settings.price_compare != blank -%}
+              <s>{{ section.settings.price_compare }}</s>
+            {%- endif -%}
+          </span>
+          {%- if section.settings.price_note != blank -%}
+            <span class="purelane-hero__pricetag-note">{{ section.settings.price_note }}</span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Clean That Lasts"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h1", "label": "Medium" },
+        { "value": "h0", "label": "Large" },
+        { "value": "hxl", "label": "Extra large" }
+      ],
+      "default": "hxl"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Homecare that works on the toughest grime, made from plants."
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "button_label_1",
+      "label": "First button label",
+      "default": "Shop now"
+    },
+    {
+      "type": "url",
+      "id": "button_link_1",
+      "label": "First button link"
+    },
+    {
+      "type": "text",
+      "id": "button_label_2",
+      "label": "Second button label",
+      "default": "How it works"
+    },
+    {
+      "type": "url",
+      "id": "button_link_2",
+      "label": "Second button link"
+    },
+    {
+      "type": "header",
+      "content": "Product visual"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Product image"
+    },
+    {
+      "type": "text",
+      "id": "price_label",
+      "label": "Price tag label",
+      "default": "Single bottle"
+    },
+    {
+      "type": "text",
+      "id": "price_current",
+      "label": "Current price",
+      "default": "₹200"
+    },
+    {
+      "type": "text",
+      "id": "price_compare",
+      "label": "Compare-at price",
+      "default": "₹299"
+    },
+    {
+      "type": "text",
+      "id": "price_note",
+      "label": "Price note",
+      "default": "33% off"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Badge",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon (emoji or short glyph)",
+          "info": "Placeholder for MVP - e.g. a leaf emoji. Custom SVG icon set can replace this later."
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Badge text",
+          "default": "Plant powered"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero",
+      "blocks": [
+        { "type": "badge" },
+        { "type": "badge" },
+        { "type": "badge" }
+      ]
+    }
+  ]
+}
+{% endschema %}
