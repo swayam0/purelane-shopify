@@ -1,0 +1,102 @@
+.purelane-reviews {
+  padding: 4rem 0;
+  overflow: hidden;
+}
+
+.purelane-reviews__head {
+  text-align: center;
+  margin-bottom: 2.8rem;
+}
+
+.purelane-reviews__kicker {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  margin-bottom: 0.8rem;
+}
+
+.purelane-reviews__heading {
+  font-size: 3rem;
+}
+
+.purelane-reviews__empty {
+  text-align: center;
+  padding: 3rem 0;
+  opacity: 0.6;
+}
+
+.purelane-reviews__viewport {
+  width: 100%;
+  overflow: hidden;
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 5%,
+    black 95%,
+    transparent
+  );
+}
+
+.purelane-reviews__track {
+  display: flex;
+  gap: 1.6rem;
+  width: max-content;
+  animation: purelane-marquee 42s linear infinite;
+}
+
+.purelane-reviews__viewport:hover .purelane-reviews__track {
+  animation-play-state: paused;
+}
+
+@keyframes purelane-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    /* Shift by exactly one full set (half the doubled track) so the loop is seamless */
+    transform: translateX(calc(-50% - 0.8rem));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .purelane-reviews__track {
+    animation: none;
+    flex-wrap: wrap;
+    overflow-x: auto;
+  }
+}
+
+.purelane-review {
+  flex: 0 0 28rem;
+  padding: 2rem;
+  border-radius: 1.8rem;
+  background: rgba(var(--color-foreground), 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.purelane-review__stars {
+  font-size: 1.4rem;
+  letter-spacing: 0.1em;
+  color: rgba(var(--color-foreground), 0.25);
+}
+
+.purelane-review__star--filled {
+  color: rgb(var(--color-foreground));
+}
+
+.purelane-review__text {
+  font-size: 1.4rem;
+  line-height: 1.6;
+  opacity: 0.85;
+}
+
+.purelane-review__name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  opacity: 0.6;
+}

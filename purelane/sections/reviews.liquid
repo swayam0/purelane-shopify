@@ -1,0 +1,127 @@
+{{ 'component-purelane-reviews.css' | asset_url | stylesheet_tag }}
+
+<section
+  id="Reviews-{{ section.id }}"
+  class="purelane-reviews color-{{ section.settings.color_scheme }}{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}"
+>
+  <div class="purelane-reviews__head page-width">
+    {%- if section.settings.kicker != blank -%}
+      <span class="purelane-reviews__kicker">{{ section.settings.kicker }}</span>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h2 class="purelane-reviews__heading">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+  </div>
+
+  {%- assign review_blocks = section.blocks | where: 'type', 'review' -%}
+
+  {%- if review_blocks.size > 0 -%}
+    <div class="purelane-reviews__viewport">
+      <div class="purelane-reviews__track" style="--review-count: {{ review_blocks.size }};">
+        {%- comment -%} Render the set twice so the CSS scroll loop is seamless {%- endcomment -%}
+        {%- for i in (1..2) -%}
+          {%- for block in review_blocks -%}
+            <article class="purelane-review" {% if i == 1 %}{{ block.shopify_attributes }}{% else %}aria-hidden="true"{% endif %}>
+              {%- if block.settings.rating != blank -%}
+                <div class="purelane-review__stars" aria-label="{{ block.settings.rating }} out of 5 stars">
+                  {%- for star in (1..5) -%}
+                    {%- if star <= block.settings.rating -%}
+                      <span class="purelane-review__star purelane-review__star--filled">&#9733;</span>
+                    {%- else -%}
+                      <span class="purelane-review__star">&#9733;</span>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
+              {%- if block.settings.text != blank -%}
+                <p class="purelane-review__text">&ldquo;{{ block.settings.text }}&rdquo;</p>
+              {%- endif -%}
+              {%- if block.settings.name != blank -%}
+                <p class="purelane-review__name">{{ block.settings.name }}</p>
+              {%- endif -%}
+            </article>
+          {%- endfor -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- else -%}
+    <div class="purelane-reviews__empty page-width">
+      Add Review blocks in the theme editor to show customer reviews here.
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Reviews rail",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker text",
+      "default": "Loved by customers"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What people are saying"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Customer name",
+          "default": "Customer name"
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Review text",
+          "default": "Add the customer's review here."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Reviews rail",
+      "blocks": [
+        { "type": "review" },
+        { "type": "review" },
+        { "type": "review" },
+        { "type": "review" }
+      ]
+    }
+  ]
+}
+{% endschema %}
